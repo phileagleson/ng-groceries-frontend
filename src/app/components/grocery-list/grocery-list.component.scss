@@ -1,0 +1,52 @@
+.container {
+  overflow-y: hidden;
+  .list-group {
+    height: 100%
+  }
+}
+
+.draggable-item.active {
+  position: fixed;
+  left: 0;
+  top: 0;
+  will-change: transform;
+  z-index: 2000;
+  pointer-evnts: none
+}
+
+.draggable-item.animatable {
+  transition: transform linear 400ms, opacity linear 400ms
+}
+
+.keeper {
+  opacity: 0;
+}
+
+.drop-area {
+  width: 100%;
+  margin-top: 10px;
+  min-height: 44px;
+  position: relative;
+}
+
+.drop-area:after {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  content: '';
+  border: 1px dashed black;
+  box-sizing: border-box;
+  opacity: 0;
+  top: 0;
+  left: 0;
+}
+
+.drop-area.affordance:after {
+  opacity: .3;
+  position: absolute;
+}
+
+.drop-area.affordance.active:after {
+  opacity: 1;
+}
+

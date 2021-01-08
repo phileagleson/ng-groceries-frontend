@@ -1,0 +1,10 @@
+@import '~bootstrap/scss/_functions.scss';
+@import '~bootstrap/scss/_variables.scss';
+footer {
+  background-color: $purple;
+  position: fixed;
+  height: 2rem;
+  width: 100%;
+  z-index: 1;
+  bottom: 0;
+}

@@ -1,0 +1,42 @@
+<div *ngIf="!groceryList; else elseBlock" class="container mt-5 text-center">
+  <button class="btn btn-primary m-2">Add item</button>
+  <h3>You need to add some groceries first</h3>
+</div>
+<ng-template #elseBlock>
+  <div class="container mt-5">
+    <button class="btn btn-primary m-2">Add item</button>
+    <button (click)="onResetClick()" class="btn btn-danger">Reset List</button>
+    <div class="row align-items-start">
+      <div class="col" *ngIf="groceryList">
+        <div
+          [cdkDropListData]="groceryList.items"
+          cdkDropList
+          (cdkDropListDropped)="onItemDrop($event)"
+          class="list-group"
+        >
+          <div
+            cdkDragHandle
+            *ngFor="let item of groceryList.items"
+            class="draggable-item m-1 list-group-item"
+            [id]="item._id"
+            cdkDrag
+          >
+            <input type="checkbox" class="ml-1 form-check-input" />
+            <p class="d-inline ml-4">
+              {{ item.name | titlecase }}
+            </p>
+            <p class="d-inline ml-4" *ngIf="item.qty! > 1">
+              <strong>Qty: {{ item.qty }}</strong>
+            </p>
+            <button
+              (click)="removeItem(item)"
+              class="d-inline btn btn-sm float-right"
+            >
+              <i class="fa fa-times text-danger"></i>
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</ng-template>

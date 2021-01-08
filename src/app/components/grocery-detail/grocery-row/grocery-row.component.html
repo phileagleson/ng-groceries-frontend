@@ -1,0 +1,28 @@
+<td *ngIf="item && !editMode">
+  {{ item.name }}
+</td>
+<td class="text-center" *ngIf="item && !editMode">
+  <button
+    *ngIf="item"
+    class="btn btn-sm btn-primary"
+    (click)="addItemToList(item)"
+  >
+    Add to List
+  </button>
+</td>
+
+<td *ngIf="item && editMode">
+  {{ item.name }}
+</td>
+<td class="text-center" *ngIf="item && editMode">
+  <button *ngIf="item" (click)="open()" class="btn btn-sm btn-warning">
+    Edit Item
+  </button>
+  <button
+    *ngIf="item"
+    (click)="onDeleteItem(item)"
+    class="btn btn-sm btn-danger ml-2"
+  >
+    Delete Item
+  </button>
+</td>

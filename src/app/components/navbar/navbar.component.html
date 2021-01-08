@@ -1,0 +1,36 @@
+<nav class="navbar navbar-dark navbar-expand-lg">
+  <div class="container">
+    <a routerLink="groceries" class="navbar-brand">Groceries</a>
+    <button class="navbar-toggler" type="button" (click)="toggleNavbar()">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <div class="collapse navbar-collapse" [ngClass]="{ show: navbarOpen }">
+      <ul class="navbar-nav mr-auto">
+        <li ngbDropdown class="nav-item">
+          <a
+            class="nav-link"
+            href
+            (click)="(false)"
+            ngbDropdownToggle
+            role="button"
+          >
+            Groceries
+          </a>
+          <div ngbDropdownMenu>
+            <a routerLink="groceries" ngbDropdownItem>Grocery Inventory</a>
+            <a routerLink="grocerylist" ngbDropdownItem>Gorcery List</a>
+          </div>
+        </li>
+        <li class="nav-item" *ngIf="!isAuthenticated">
+          <a href routerLink="login" class="nav-link">Login</a>
+        </li>
+      </ul>
+      <div class="d-inline text-light" *ngIf="isAuthenticated">
+        <button (click)="logout()" type="button" class="btn text-light">
+          Logout
+        </button>
+      </div>
+    </div>
+  </div>
+</nav>

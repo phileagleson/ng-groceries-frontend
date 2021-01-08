@@ -1,0 +1,49 @@
+<div class="container">
+  <div class="grocery-area-list">
+    <h3 class="text-center">Select an Area</h3>
+    <button
+      class="text-center mt-4 btn btn-lg btn-outline-primary mb-3"
+      (click)="open()"
+    >
+      Add New Area
+    </button>
+    <button
+      class="text-center ml-4 mt-4 btn btn-lg btn-outline-warning mb-3"
+      (click)="toggleEditMode()"
+    >
+      Edit Areas
+    </button>
+    <div
+      *ngIf="!editMode; else editModeContent"
+      class="d-flex justify-content-start flex-wrap area-list"
+    >
+      <div
+        class="area-item bg-light"
+        *ngFor="let area of areas"
+        (click)="goToDetailPage(area)"
+      >
+        <img src="{{ area.imageURL }}" alt="{{ area.name }}" />
+        <h5 class="text-light">{{ area.name }}</h5>
+      </div>
+    </div>
+    <ng-template #editModeContent>
+      <div class="d-flex justify-content-start flex-wrap area-list">
+        <div
+          class="area-item bg-light"
+          *ngFor="let area of areas"
+          [ngClass]="{ wiggle: editMode }"
+        >
+          <span (click)="deleteArea(area)"
+            ><i class="fa fa-times-circle"></i
+          ></span>
+          <img
+            (click)="open(area)"
+            src="{{ area.imageURL }}"
+            alt="{{ area.name }}"
+          />
+          <h5 class="text-light">{{ area.name }}</h5>
+        </div>
+      </div>
+    </ng-template>
+  </div>
+</div>

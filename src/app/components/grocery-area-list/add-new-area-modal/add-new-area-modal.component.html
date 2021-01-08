@@ -1,0 +1,49 @@
+<div class="modal-header">
+  <h4 class="modal-title">{{ title }}</h4>
+  <button
+    type="button  "
+    class="close"
+    aria-label="Close"
+    (click)="activeModal.dismiss('Cross click')"
+  >
+    <span aria-hidden="true">&times;</span>
+  </button>
+</div>
+<div class="modal-body">
+  <form [formGroup]="addAreaForm" (ngSubmit)="onSubmit()">
+    <div class="form-group mb-3">
+      <label for="name" class="form-label"> Name: </label>
+      <input
+        type="text"
+        class="form-control"
+        id="name"
+        formControlName="name"
+      />
+    </div>
+    <div class="form-group mb-3">
+      <img src="{{ imgSrc }}" alt="Image Preview" id="preview" />
+      <input
+        formControlName="image"
+        class="form-control"
+        type="file"
+        name="file"
+        id="file"
+        (change)="onChange($event)"
+      />
+    </div>
+    <div class="form-group mb-3">
+      <button
+        type="submit"
+        [disabled]="!addAreaForm.valid"
+        class="btn btn-primary"
+        *ngIf="!saving"
+      >
+        {{ buttonText }}
+      </button>
+      <button class="btn btn-primary" type="button" disabled *ngIf="saving">
+        <span class="spinner-border spinner-border-sm" role="status"></span>
+        Saving...
+      </button>
+    </div>
+  </form>
+</div>

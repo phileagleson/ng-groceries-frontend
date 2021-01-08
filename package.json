@@ -12,13 +12,19 @@
   "private": true,
   "dependencies": {
     "@angular/animations": "~11.0.5",
+    "@angular/cdk": "^11.0.3",
     "@angular/common": "~11.0.5",
     "@angular/compiler": "~11.0.5",
     "@angular/core": "~11.0.5",
     "@angular/forms": "~11.0.5",
+    "@angular/localize": "~11.0.5",
     "@angular/platform-browser": "~11.0.5",
     "@angular/platform-browser-dynamic": "~11.0.5",
     "@angular/router": "~11.0.5",
+    "@ng-bootstrap/ng-bootstrap": "^8.0.0",
+    "bootstrap": "^4.5.0",
+    "font-awesome": "^4.7.0",
+    "mobile-drag-drop": "^2.3.0-rc.2",
     "rxjs": "~6.6.0",
     "tslib": "^2.0.0",
     "zone.js": "~0.10.2"
@@ -40,6 +46,16 @@
     "protractor": "~7.0.0",
     "ts-node": "~8.3.0",
     "tslint": "~6.1.0",
-    "typescript": "~4.0.2"
+    "eslint": "^7.6.0",
+    "eslint-plugin-import": "2.22.1",
+    "eslint-plugin-jsdoc": "30.7.6",
+    "eslint-plugin-prefer-arrow": "1.2.2",
+    "@angular-eslint/builder": "0.8.0-beta.6",
+    "@angular-eslint/eslint-plugin": "0.8.0-beta.6",
+    "@angular-eslint/eslint-plugin-template": "0.8.0-beta.6",
+    "@angular-eslint/schematics": "^0.8.0-beta.6",
+    "@angular-eslint/template-parser": "0.8.0-beta.6",
+    "@typescript-eslint/eslint-plugin": "4.3.0",
+    "@typescript-eslint/parser": "4.3.0"
   }
 }
