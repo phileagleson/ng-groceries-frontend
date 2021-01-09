@@ -26,7 +26,7 @@
           <a href routerLink="login" class="nav-link">Login</a>
         </li>
       </ul>
-      <div class="d-inline text-light" *ngIf="isAuthenticated">
+      <div class="d-inline text-light" *ngIf="user">
         <button (click)="logout()" type="button" class="btn text-light">
           Logout
         </button>

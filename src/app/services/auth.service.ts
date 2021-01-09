@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core'
 import { HttpClient, HttpResponse } from '@angular/common/http'
 import { BehaviorSubject, Observable } from 'rxjs'
-import { map, tap } from 'rxjs/operators'
+import { map, shareReplay, tap } from 'rxjs/operators'
 import jwt_decode from 'jwt-decode'
 import IUser from '../models/User'
 
@@ -23,7 +23,15 @@ export class AuthService {
   // eslint-ignore-next-line
   user: Observable<IUser | null> = this.userSubject.asObservable()
   uri = '/graphql'
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient) {
+    const refreshToken = localStorage.getItem('refreshToken')
+    if (refreshToken) {
+      const decodedRefreshToken: IRefreshToken = jwt_decode(refreshToken)
+      if (decodedRefreshToken?.user) {
+        this.userSubject.next(decodedRefreshToken.user)
+      }
+    }
+  }
 
   login = (query: string, variables: any): Observable<any> =>
     this.http
@@ -41,12 +49,14 @@ export class AuthService {
           localStorage.setItem('accessToken', accessToken)
           localStorage.setItem('refreshToken', refreshToken)
           this.userSubject.next(res.body.data.loginUser)
-        })
+        }),
+        shareReplay()
       )
 
   logout = (): void => {
     localStorage.removeItem('accessToken')
     localStorage.removeItem('refreshToken')
+    this.userSubject.next(null)
   }
 
   isAuthenticated = (): boolean => {

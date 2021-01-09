@@ -13,13 +13,15 @@ export class NavbarComponent implements OnInit, OnDestroy {
   navbarOpen = false
   isAuthenticated = false
   sub: Subscription = new Subscription()
+  userSub = new Subscription()
   user: IUser | null = null
 
   constructor(private authService: AuthService, private router: Router) {}
 
   ngOnInit(): void {
     this.isAuthenticated = this.authService.isAuthenticated()
-    this.authService.user.subscribe((user: IUser | null) => {
+
+    this.userSub = this.authService.user.subscribe((user: IUser | null) => {
       this.user = user
     })
   }
@@ -30,6 +32,7 @@ export class NavbarComponent implements OnInit, OnDestroy {
 
   ngOnDestroy() {
     this.sub.unsubscribe()
+    this.userSub.unsubscribe()
   }
 
   logout() {
