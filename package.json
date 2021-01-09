@@ -24,6 +24,7 @@
     "@ng-bootstrap/ng-bootstrap": "^8.0.0",
     "bootstrap": "^4.5.0",
     "font-awesome": "^4.7.0",
+    "jwt-decode": "^3.1.2",
     "mobile-drag-drop": "^2.3.0-rc.2",
     "rxjs": "~6.6.0",
     "tslib": "^2.0.0",

@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core'
-import { Router, ActivatedRoute } from '@angular/router'
+import { Router } from '@angular/router'
 import Area from '../../models/Area'
 import { AddNewAreaModalComponent } from './add-new-area-modal/add-new-area-modal.component'
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap'
@@ -25,7 +25,7 @@ export class GroceryAreaListComponent implements OnInit {
   areas: Area[] = []
   editMode = false
 
-  constructor(private router: Router, private route: ActivatedRoute, private modalService: NgbModal, private areaService: AreaService) {}
+  constructor(private router: Router, private modalService: NgbModal, private areaService: AreaService) {}
 
   ngOnInit(): void {
     this.updateAreas()
@@ -38,8 +38,8 @@ export class GroceryAreaListComponent implements OnInit {
   open(area?: Area) {
     if (!this.editMode) {
       const modalRef = this.modalService.open(AddNewAreaModalComponent)
-      modalRef.closed.subscribe((value) => {
-        if (value === 'area added') {
+      modalRef.closed.subscribe((addedArea: Area) => {
+        if (addedArea) {
           this.updateAreas()
         }
       })
@@ -50,8 +50,8 @@ export class GroceryAreaListComponent implements OnInit {
       modalRef.componentInstance.title = 'Edit Area'
       modalRef.componentInstance.buttonText = 'Update'
       modalRef.componentInstance.area = area
-      modalRef.closed.subscribe((value) => {
-        if (value === 'area added') {
+      modalRef.closed.subscribe((updatedArea: Area) => {
+        if (updatedArea) {
           this.updateAreas()
         }
       })

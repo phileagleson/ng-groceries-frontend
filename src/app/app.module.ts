@@ -9,10 +9,10 @@ import { DragDropModule } from '@angular/cdk/drag-drop'
 import { FooterComponent } from './components/footer/footer.component'
 import { GroceryAreaListComponent } from './components/grocery-area-list/grocery-area-list.component'
 import { GroceryDetailComponent } from './components/grocery-detail/grocery-detail.component'
-import { AddItemModalComponent } from './components/grocery-detail/add-item-modal/add-item-modal.component'
 import { GroceryRowComponent } from './components/grocery-detail/grocery-row/grocery-row.component'
 import { GroceryListComponent } from './components/grocery-list/grocery-list.component'
-import { AddItemToListModalComponent } from './components/grocery-list/add-item-modal/add-item-modal.component'
+import { ItemModalComponent } from './components/item-modal/item-modal.component'
+import { LoadingComponent } from './components/loading/loading.component'
 
 /* SERVICES */
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http'
@@ -26,8 +26,8 @@ import { ToastsContainerComponent } from './components/toasts-container/toasts-c
 import { LoginComponent } from './components/login/login.component'
 
 /* GUARDS */
-import { AuthGuard } from './guards/auth.guard'
-import { LoadingComponent } from './components/loading/loading.component'
+import { AuthGuard } from './guards/auth.guard';
+import { ErrorComponent } from './components/error/error.component'
 
 @NgModule({
   bootstrap: [AppComponent],
@@ -36,7 +36,6 @@ import { LoadingComponent } from './components/loading/loading.component'
     FooterComponent,
     GroceryAreaListComponent,
     GroceryDetailComponent,
-    AddItemModalComponent,
     AppSortDirective,
     GroceryRowComponent,
     GroceryListComponent,
@@ -45,7 +44,8 @@ import { LoadingComponent } from './components/loading/loading.component'
     ToastsContainerComponent,
     LoginComponent,
     LoadingComponent,
-    AddItemToListModalComponent
+    ItemModalComponent,
+    ErrorComponent
   ],
   imports: [BrowserModule, AppRoutingModule, FormsModule, ReactiveFormsModule, NgbModule, HttpClientModule, DragDropModule],
   providers: [

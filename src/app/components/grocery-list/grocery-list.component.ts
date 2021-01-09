@@ -5,7 +5,7 @@ import { AreaService } from '../../services/area.service'
 import { CdkDragDrop, moveItemInArray, transferArrayItem } from '@angular/cdk/drag-drop'
 import { ToastService } from '../../services/toast.service'
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap'
-import { AddItemModalComponent } from '../grocery-detail/add-item-modal/add-item-modal.component'
+import { ItemModalComponent } from '../item-modal/item-modal.component'
 
 @Component({
   selector: 'app-grocery-list',
@@ -52,20 +52,6 @@ export class GroceryListComponent implements OnInit {
     `
     this.areaService.getGroceryList(query).subscribe((list) => {
       this.groceryListId = list._id
-      // De-dupe items and add qty property
-      /*
-      const uniqueItems: Item[] = []
-      list.items.forEach((item: Item) => {
-        // see if item exist in uniqueItems
-        const foundItem = uniqueItems.find((i: Item) => i._id === item._id)
-        if (!foundItem) {
-          item.qty = 1
-          uniqueItems.push(item)
-        } else if (foundItem.qty) {
-          foundItem.qty += 1
-        }
-      })
-      */
       this.deDupeItems(list)
       if (list.items.length > 0) {
         this.groceryList = list
@@ -112,8 +98,7 @@ export class GroceryListComponent implements OnInit {
           for (let i = 1; i <= item.qty; i++) {
             const updatedItem = {
               _id: item._id,
-              name: item.name,
-              _v: 0
+              name: item.name
             }
             this.sortedItems?.push(updatedItem)
           }
@@ -175,14 +160,33 @@ export class GroceryListComponent implements OnInit {
   }
 
   open() {
-    const modalRef = this.modalService.open(AddItemModalComponent)
-    modalRef.closed.subscribe((value) => {
-      if (value?._id) {
-        if (this.groceryList?.items) {
-          this.groceryList.items.push(value)
+    const modalRef = this.modalService.open(ItemModalComponent)
+    modalRef.closed.subscribe((item) => {
+      const query = `
+      mutation AddItemToGroceryList($groceryId: ID!, $name: String) {
+        addItemToGroceryList(groceryId: $groceryId, name: $name) {
+          _id
+          items {
+            _id
+            name
+          }
         }
-        this.toastService.show('Item Added', { classname: 'mr-4 ml-auto bg-success text-light' })
       }
+      `
+      const variables = {
+        groceryId: this.groceryListId,
+        name: item.name
+      }
+
+      this.areaService.addItemToList(query, variables).subscribe((list) => {
+        this.deDupeItems(list)
+        if (list.items.length > 0) {
+          this.groceryList = list
+        } else {
+          this.groceryList = null
+        }
+      })
+      this.toastService.show('Item Added', { classname: 'mr-4 ml-auto bg-success text-light' })
     })
   }
 }

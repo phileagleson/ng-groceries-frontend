@@ -1,0 +1,9 @@
+<ng-container *ngIf="errors | async as errors">
+  <div class="container mt-4 errors-container" *ngIf="showErrors">
+    <div class="error" *ngFor="let error of errors">
+      <ngb-alert type="danger" (closed)="onClose()">
+        {{ error }}
+      </ngb-alert>
+    </div>
+  </div>
+</ng-container>

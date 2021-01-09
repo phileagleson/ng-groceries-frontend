@@ -1,16 +1,18 @@
 <app-toasts aria-live="polite" aria-atomic="true"></app-toasts>
-<div class="container mt-4">
-  <h3 *ngIf="areaName">{{ areaName | titlecase }}</h3>
-  <button class="mt-4 btn btn-lg btn-outline-primary mb-3" (click)="open()">
-    Add New Item
-  </button>
-  <button
-    class="mt-4 btn btn-lg btn-outline-warning mb-3 ml-3"
-    (click)="enableEditMode()"
-  >
-    Edit Items
-  </button>
-  <table class="table table-striped">
+<div class="container">
+  <h3 class="text-center mt-4" *ngIf="areaName">{{ areaName | titlecase }}</h3>
+  <div class="d-flex justify-content-center">
+    <button class="mt-4 btn btn-lg btn-outline-primary mb-3" (click)="open()">
+      Add New Item
+    </button>
+    <button
+      class="mt-4 btn btn-lg btn-outline-warning mb-3 ml-3"
+      (click)="enableEditMode()"
+    >
+      Edit Items
+    </button>
+  </div>
+  <table class="table table-striped mt-4">
     <thead>
       <tr>
         <th
@@ -37,7 +39,7 @@
         [areaId]="areaId"
         [editMode]="editMode"
         (deletedItemEvent)="onItemDeleted(item)"
-        (updatedItemEvent)="onItemUpdated(item)"
+        (updatedItemEvent)="onItemUpdated()"
         (itemAddedToListEvent)="onItemAddedToList()"
       ></tr>
     </tbody>

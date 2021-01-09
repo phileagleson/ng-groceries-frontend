@@ -1,5 +1,5 @@
 <td *ngIf="item && !editMode">
-  {{ item.name }}
+  {{ item.name | titlecase }}
 </td>
 <td class="text-center" *ngIf="item && !editMode">
   <button
@@ -12,7 +12,7 @@
 </td>
 
 <td *ngIf="item && editMode">
-  {{ item.name }}
+  {{ item.name | titlecase }}
 </td>
 <td class="text-center" *ngIf="item && editMode">
   <button *ngIf="item" (click)="open()" class="btn btn-sm btn-warning">

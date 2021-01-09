@@ -1,26 +1,30 @@
 <div *ngIf="!groceryList; else elseBlock" class="container mt-5 text-center">
-  <button class="btn btn-primary m-2">Add item</button>
+  <button class="btn btn-primary m-2" (click)="open()">Add item</button>
   <h3>You need to add some groceries first</h3>
 </div>
 <ng-template #elseBlock>
-  <div class="container mt-5">
-    <button class="btn btn-primary m-2">Add item</button>
-    <button (click)="onResetClick()" class="btn btn-danger">Reset List</button>
-    <div class="row align-items-start">
+  <div class="container mt-4">
+    <div class="d-flex justify-content-center">
+      <button class="btn btn-primary mr-2" (click)="open()">Add item</button>
+      <button (click)="onResetClick()" class="btn btn-danger">
+        Reset List
+      </button>
+    </div>
+    <div class="row align-items-start mt-4">
       <div class="col" *ngIf="groceryList">
         <div
           [cdkDropListData]="groceryList.items"
           cdkDropList
           (cdkDropListDropped)="onItemDrop($event)"
-          class="list-group"
+          class="list-group grocery-list"
         >
           <div
-            cdkDragHandle
             *ngFor="let item of groceryList.items"
-            class="draggable-item m-1 list-group-item"
+            class="draggable-item m-1 list-group-item my-1"
             [id]="item._id"
             cdkDrag
           >
+            <div class="custom-placeholder" *cdkDragPlaceholder></div>
             <input type="checkbox" class="ml-1 form-check-input" />
             <p class="d-inline ml-4">
               {{ item.name | titlecase }}

@@ -1,13 +1,27 @@
 import { Injectable } from '@angular/core'
 import { HttpClient, HttpResponse } from '@angular/common/http'
-import { Observable } from 'rxjs'
+import { BehaviorSubject, Observable } from 'rxjs'
 import { map, tap } from 'rxjs/operators'
+import jwt_decode from 'jwt-decode'
 import IUser from '../models/User'
+
+interface IRefreshToken {
+  user: {
+    id: string
+    name: string
+    email: string
+  }
+  iat: number
+  exp: number
+}
 
 @Injectable({
   providedIn: 'root'
 })
 export class AuthService {
+  private userSubject = new BehaviorSubject<IUser | null>(null)
+  // eslint-ignore-next-line
+  user: Observable<IUser | null> = this.userSubject.asObservable()
   uri = '/graphql'
   constructor(private http: HttpClient) {}
 
@@ -26,6 +40,7 @@ export class AuthService {
           const refreshToken = res.headers.get('x-refresh-token')
           localStorage.setItem('accessToken', accessToken)
           localStorage.setItem('refreshToken', refreshToken)
+          this.userSubject.next(res.body.data.loginUser)
         })
       )
 
@@ -36,7 +51,17 @@ export class AuthService {
 
   isAuthenticated = (): boolean => {
     const accessToken = localStorage.getItem('accessToken')
-    const refreshToken = localStorage.getItem('refreshToken')
+    let refreshToken = localStorage.getItem('refreshToken')
+    const today = new Date()
+
+    if (refreshToken) {
+      const decodedRefreshToken: IRefreshToken = jwt_decode(refreshToken)
+      const refreshExpDate = new Date(decodedRefreshToken.exp * 1000)
+      if (refreshExpDate < today) {
+        localStorage.removeItem('refreshToken')
+        refreshToken = null
+      }
+    }
 
     if (accessToken && refreshToken) {
       return true

@@ -1,21 +1,23 @@
 <div class="container">
   <div class="grocery-area-list">
-    <h3 class="text-center">Select an Area</h3>
-    <button
-      class="text-center mt-4 btn btn-lg btn-outline-primary mb-3"
-      (click)="open()"
-    >
-      Add New Area
-    </button>
-    <button
-      class="text-center ml-4 mt-4 btn btn-lg btn-outline-warning mb-3"
-      (click)="toggleEditMode()"
-    >
-      Edit Areas
-    </button>
+    <h3 class="text-center mt-3">Select an Area</h3>
+    <div class="d-flex justify-content-center">
+      <button
+        class="text-center mt-4 btn btn-lg btn-outline-primary mb-3"
+        (click)="open()"
+      >
+        Add New Area
+      </button>
+      <button
+        class="text-center ml-4 mt-4 btn btn-lg btn-outline-warning mb-3"
+        (click)="toggleEditMode()"
+      >
+        Edit Areas
+      </button>
+    </div>
     <div
       *ngIf="!editMode; else editModeContent"
-      class="d-flex justify-content-start flex-wrap area-list"
+      class="d-flex justify-content-center flex-wrap area-list"
     >
       <div
         class="area-item bg-light"

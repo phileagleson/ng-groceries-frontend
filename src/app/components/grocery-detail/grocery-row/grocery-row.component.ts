@@ -3,7 +3,8 @@ import Item from '../../../models/Item'
 import GroceryList from '../../../models/GrocerList'
 import { AreaService } from '../../../services/area.service'
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap'
-import { AddItemModalComponent } from '../add-item-modal/add-item-modal.component'
+import { ItemModalComponent } from '../../item-modal/item-modal.component'
+import { ToastService } from '../../../services/toast.service'
 
 @Component({
   selector: 'tr[groceryRow]',
@@ -17,12 +18,11 @@ export class GroceryRowComponent implements OnInit {
   @Output() deletedItemEvent = new EventEmitter<Item>()
   @Output() updatedItemEvent = new EventEmitter<Item>()
   @Output() itemAddedToListEvent = new EventEmitter<GroceryList>()
-  constructor(private areaService: AreaService, private modalService: NgbModal) {}
+  constructor(private areaService: AreaService, private modalService: NgbModal, private toastService: ToastService) {}
 
   ngOnInit(): void {}
 
   addItemToList(item: Item) {
-    //this.groceryService.addGroceryItem(itemToAdd)
     const query = `
     mutation AddItemToGroceryList($groceryId: ID!, $itemId: ID!) {
       addItemToGroceryList(groceryId: $groceryId, itemId: $itemId) {
@@ -34,7 +34,12 @@ export class GroceryRowComponent implements OnInit {
       }
     }
     `
-    this.areaService.addItemToList(query, item._id).subscribe((res) => {
+    const variables = {
+      itemId: item._id,
+      groceryId: ''
+    }
+
+    this.areaService.addItemToList(query, variables).subscribe((res) => {
       if (res._id) {
         this.itemAddedToListEvent.emit(res)
       }
@@ -61,7 +66,7 @@ export class GroceryRowComponent implements OnInit {
   }
 
   open() {
-    const modalRef = this.modalService.open(AddItemModalComponent)
+    const modalRef = this.modalService.open(ItemModalComponent)
     if (this.areaId) {
       modalRef.componentInstance.selectedArea = this.areaId
       modalRef.componentInstance.item = this.item
@@ -69,7 +74,27 @@ export class GroceryRowComponent implements OnInit {
       modalRef.componentInstance.buttonText = 'Update'
     }
     modalRef.closed.subscribe((updatedItem: Item) => {
-      this.updatedItemEvent.emit(updatedItem)
+      this.updateItem(updatedItem)
+    })
+  }
+
+  updateItem(updatedItem: Item): void {
+    const query = `
+    mutation UpdateItem($name: String!, $itemId: ID!) {
+      updateItem(name: $name, itemId: $itemId) {
+        name
+        _id
+      }
+    }
+    `
+    const variables = {
+      name: updatedItem.name,
+      itemId: this.item._id
+    }
+    this.areaService.updateItem(query, variables).subscribe((returnedItem: Item) => {
+      this.item.name = returnedItem.name
+      this.toastService.show('Item Updated', { classname: 'mr-4 ml-auto bg-success text-light' })
+      this.updatedItemEvent.emit(returnedItem)
     })
   }
 }

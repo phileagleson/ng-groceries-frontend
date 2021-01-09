@@ -59,18 +59,8 @@ export class AddNewAreaModalComponent implements OnInit {
         }
       }
 
-      this.areaService.addArea(this.image, operations).subscribe((event) => {
-        if (event.type === HttpEventType.UploadProgress) {
-          // TODO: Add Upload Progress
-        } else if (event.type === HttpEventType.Response) {
-          let message = ''
-          if (event.status === 200) {
-            message = 'area added'
-          } else {
-            message = 'error' + event.statusText
-          }
-          this.activeModal.close(message)
-        }
+      this.areaService.addArea(this.image, operations).subscribe((area: Area) => {
+        this.activeModal.close(area)
       })
     } else {
       // editing
@@ -91,18 +81,8 @@ export class AddNewAreaModalComponent implements OnInit {
           image: null
         }
       }
-      this.areaService.updateArea(this.image, operations).subscribe((event) => {
-        if (event.type === HttpEventType.UploadProgress) {
-          //TODO: Add Upload Progress
-        } else if (event.type === HttpEventType.Response) {
-          let message = ''
-          if (event.status === 200) {
-            message = 'area added'
-          } else {
-            message = 'error' + event.statusText
-          }
-          this.activeModal.close(message)
-        }
+      this.areaService.updateArea(this.image, operations).subscribe((area: Area) => {
+        this.activeModal.close(area)
       })
     }
   }

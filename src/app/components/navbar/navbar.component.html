@@ -22,7 +22,7 @@
             <a routerLink="grocerylist" ngbDropdownItem>Gorcery List</a>
           </div>
         </li>
-        <li class="nav-item" *ngIf="!isAuthenticated">
+        <li class="nav-item" *ngIf="!user">
           <a href routerLink="login" class="nav-link">Login</a>
         </li>
       </ul>
