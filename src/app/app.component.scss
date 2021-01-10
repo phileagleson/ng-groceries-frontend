@@ -1,15 +1,17 @@
 .wrapper {
-  height: 100vw;
-  width: 100vw;
+  height: 100%;
+  width: 100%;
 
  background-image: url('../assets/img/background.jpeg');
- image-fit: cover;
+ height: 100%;
+ height: -webkit-fill-available;
  background-repeat: repeat-y;
 
  .overlay {
-   background-color: rgba(255,255,255,0.7);
+   background-color: rgba(255,255,255,0.6);
    width: 100%;
    height: 100%;
+   height: -webkit-fill-available;
  }
   main {
     width: 100%;

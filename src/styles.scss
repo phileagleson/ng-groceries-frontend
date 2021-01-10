@@ -12,8 +12,15 @@
 @import '~bootstrap/scss/_functions.scss';
 @import '~bootstrap/scss/_variables.scss';
 
-body {
+html, body {
   font-family: 'Delius', cursive;
+  -webkit-background-size: 100%;
+  -moz-background-size: cover;
+  min-height: 100%;
+}
+
+body {
+  height: 100%;
 }
 
 
