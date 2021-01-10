@@ -1,9 +1,10 @@
 import { Injectable } from '@angular/core'
-import { HttpClient, HttpResponse } from '@angular/common/http'
+import { HttpClient } from '@angular/common/http'
 import { BehaviorSubject, Observable } from 'rxjs'
-import { map, shareReplay, tap } from 'rxjs/operators'
+import { map, catchError, tap } from 'rxjs/operators'
 import jwt_decode from 'jwt-decode'
 import IUser from '../models/User'
+import { ErrorService } from './error.service'
 
 interface IRefreshToken {
   user: {
@@ -23,9 +24,10 @@ export class AuthService {
   // eslint-ignore-next-line
   user: Observable<IUser | null> = this.userSubject.asObservable()
   uri = '/graphql'
-  constructor(private http: HttpClient) {
+  constructor(private http: HttpClient, private errorService: ErrorService) {
     const refreshToken = localStorage.getItem('refreshToken')
-    if (refreshToken) {
+    if (refreshToken && refreshToken !== 'null' && refreshToken !== 'undefined') {
+      console.log('in constructor')
       const decodedRefreshToken: IRefreshToken = jwt_decode(refreshToken)
       if (decodedRefreshToken?.user) {
         this.userSubject.next(decodedRefreshToken.user)
@@ -49,8 +51,7 @@ export class AuthService {
           localStorage.setItem('accessToken', accessToken)
           localStorage.setItem('refreshToken', refreshToken)
           this.userSubject.next(res.body.data.loginUser)
-        }),
-        shareReplay()
+        })
       )
 
   logout = (): void => {
@@ -64,7 +65,7 @@ export class AuthService {
     let refreshToken = localStorage.getItem('refreshToken')
     const today = new Date()
 
-    if (refreshToken) {
+    if (refreshToken && refreshToken !== 'null' && refreshToken !== 'undefined') {
       const decodedRefreshToken: IRefreshToken = jwt_decode(refreshToken)
       const refreshExpDate = new Date(decodedRefreshToken.exp * 1000)
       if (refreshExpDate < today) {

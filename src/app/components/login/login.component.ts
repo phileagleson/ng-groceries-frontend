@@ -2,6 +2,7 @@ import { Component, OnInit, Output, EventEmitter } from '@angular/core'
 import { FormGroup, FormControl, Validators } from '@angular/forms'
 import { AuthService } from '../../services/auth.service'
 import { Router } from '@angular/router'
+import { ErrorService } from '../../services/error.service'
 
 @Component({
   selector: 'app-login',
@@ -14,7 +15,9 @@ export class LoginComponent implements OnInit {
     password: new FormControl('', [Validators.required])
   })
 
-  constructor(private authService: AuthService, private router: Router) {}
+  errors: string[] = []
+
+  constructor(private errorService: ErrorService, private authService: AuthService, private router: Router) {}
 
   ngOnInit(): void {}
 
@@ -37,6 +40,11 @@ export class LoginComponent implements OnInit {
       this.authService.login(query, variables).subscribe((res) => {
         if (res.body.data.loginUser) {
           this.router.navigate(['groceries'])
+        } else {
+          for (const error of res.body.errors) {
+            const message = error.message
+            this.errorService.showError(message)
+          }
         }
       })
     }

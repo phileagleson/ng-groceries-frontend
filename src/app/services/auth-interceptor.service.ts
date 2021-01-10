@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core'
 import { HttpInterceptor, HttpResponse, HttpEvent, HttpErrorResponse } from '@angular/common/http'
 import { Observable, throwError } from 'rxjs'
 import { catchError, map } from 'rxjs/operators'
+import jwt_decode from 'jwt-decode'
 
 @Injectable()
 export class AuthInterceptor implements HttpInterceptor {
